@@ -12,12 +12,22 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "base"
+  config.vm.box = "sinergi/centos-65-x64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
   # config.vm.box_check_update = false
+  
+  config.vm.define "jenkserver" do |jenkserver|
+	jenkserver.vm.hostname = "jenkins1.vagrantlocal"
+	jenkserver.vm.provision "shell", path: "https://gist.githubusercontent.com/majormashup/feec1be44673881caa27/raw/191acaa8520d6f73e37545b37538ec75cea1a062/yumjenkins.sh"
+  end
+  
+  config.vm.define "svnserver" do |svnserver|
+	svnserver.vm.hostname = "svn1.vagrantlocal"
+	svnserver.vm.provision "shell", path: "https://gist.githubusercontent.com/majormashup/f43d06e6359d425c204e/raw/fd10bb77160955e9f7cf326081e6586810e00e75/yumsvn.sh"
+  end
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
